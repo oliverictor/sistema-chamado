@@ -1,5 +1,6 @@
 import firebase from "firebase";
 import 'firebase/auth';
+import 'firebase/firestore';
 
 let firebaseConfig = {
     apiKey: "AIzaSyCZL9EVpbku-r_oBbkUD9NIIpvzvzk3Ehw",
@@ -12,7 +13,7 @@ let firebaseConfig = {
 };
 
 
-if (!firebase.app.length) {
+if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
 }
 
