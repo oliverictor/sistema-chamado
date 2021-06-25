@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { FiHome, FiUser, FiSettings } from 'react-icons/fi';
 
 import { AuthContext } from '../../contexts/auth';
-import Avatar from '../../assets/avatar.png';
+import avatar from '../../assets/avatar.png';
 
 import './styles.css';
 
@@ -16,7 +16,7 @@ export default function Header() {
         <div className="sidebar">
 
             <div>
-                <img src={user.avatarUrl === null ? Avatar : user.avatarUrl} alt="Foto avatar" />
+                <img src={user.avatarUrl === null ? avatar : user.avatarUrl} alt="Foto avatar" />
             </div>
 
 
