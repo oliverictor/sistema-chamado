@@ -1,22 +1,43 @@
 
 import { useState } from 'react/cjs/react.development';
+import { toast } from 'react-toastify';
+import { FiUser } from 'react-icons/fi';
 
 import Title from '../../component/Title';
 import Header from '../../component/Header';
 
+import firebase from '../../services/firebaseConnection';
+
 import './styles.css';
-
-import { FiUser } from 'react-icons/fi';
-
 
 export default function Customers() {
     const [nomeFantasia, setNomeFantasia] = useState('');
     const [cnpj, setCnpj] = useState('');
     const [endereco, setEndereco] = useState('');
 
-    function handleSubmit(e) {
+    async function handleSubmit(e) {
         e.preventDefault();
-        alert('CLICOU')
+
+        if (nomeFantasia !== '' && cnpj !== '' && endereco !== '') {
+            await firebase.firestore().collection('customers')
+                .add({
+                    nomeFantasia: nomeFantasia,
+                    cnpj: cnpj,
+                    endereco: endereco
+                })
+                .then(() => {
+                    setNomeFantasia('');
+                    setCnpj('');
+                    setEndereco('');
+                    toast.info('Empresa cadastrada com sucesso!');
+                })
+                .catch((error) => {
+                    console.log(error);
+                    toast.error('Erro ao cadastrar empresa.')
+                })
+        } else {
+            toast.error('Preencha todos os campos"')
+        }
     }
 
     return (
