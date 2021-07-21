@@ -3,6 +3,8 @@ import { useState, useEffect, useContext } from 'react';
 
 import { FiPlusCircle } from 'react-icons/fi';
 
+import { toast } from 'react-toastify';
+
 import firebase from '../../services/firebaseConnection';
 
 import Header from '../../component/Header';
@@ -57,9 +59,28 @@ export default function New() {
         loadCustomers();
     }, [])
 
-    function handleSubmit(e) {
+    async function handleSubmit(e) {
         e.preventDefault();
-        alert('TESTE')
+
+        await firebase.firestore().collection('chamados')
+            .add({
+                created: new Date(),
+                cliente: customers[customerSelected].nomeFantasia,
+                clienteId: customers[customerSelected].id,
+                assunto: assunto,
+                status: status,
+                complemento: complemento,
+                userId: user.uid
+            })
+            .then(() => {
+                toast.success('Chamado cadastrado com sucesso!');
+                setComplemento('');
+                setCustomerSelected(0);
+            })
+            .catch((err) => {
+                toast.error('Ops erro ao registrar, tente mais tarde.')
+                console.log(err)
+            })
     }
 
     //Chama quando troca o assunto
